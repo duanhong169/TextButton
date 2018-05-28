@@ -9,6 +9,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
+import me.ele.uetool.UETool;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,12 +17,22 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick({R.id.button0, R.id.button1, R.id.button2, R.id.button3, R.id.button4})
     void onClick(View view) {
-        Toast.makeText(this, "onClick: " + view.getId(), Toast.LENGTH_SHORT).show();
+
+    }
+
+    @OnCheckedChanged(R.id.ue_tool)
+    void onUeToolShow(boolean show) {
+        if (show) {
+            UETool.showUETMenu();
+        } else {
+            UETool.dismissUETMenu();
+        }
     }
 
     @OnCheckedChanged(R.id.checkbox0)
     void onDisabledChanged(boolean checked) {
         button0.setEnabled(!checked);
+        button0.setText(checked ? "disabled" : "enabled");
     }
 
     @Override
