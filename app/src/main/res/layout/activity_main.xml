@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <top.defaults.view.TextButton
+            android:id="@+id/button0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="disabled"
+            android:padding="8dp"
+            android:textSize="24sp"
+            android:enabled="false"
+            app:defaultTextColor="@android:color/holo_purple"
+            app:disabledTextColor="@android:color/darker_gray"/>
+
+        <CheckBox
+            android:id="@+id/checkbox0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="disabled"
+            android:checked="true"/>
+
+    </LinearLayout>
+
+    <top.defaults.view.TextButton
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="default"
+        android:padding="8dp"
+        android:textSize="24sp"
+        app:defaultTextColor="@android:color/holo_purple"
+        app:pressedTextColor="@android:color/holo_orange_dark"
+        app:underline="true"/>
+
+    <top.defaults.view.TextButton
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="animateTextSize"
+        android:padding="8dp"
+        android:textSize="24sp"
+        app:defaultTextColor="@android:color/holo_red_dark"
+        app:effect="animateTextSize"/>
+
+    <top.defaults.view.TextButton
+        android:id="@+id/button3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="animateTextColor"
+        android:padding="8dp"
+        android:textSize="24sp"
+        app:defaultTextColor="@android:color/holo_blue_dark"
+        app:effect="animateTextColor"/>
+
+    <top.defaults.view.TextButton
+        android:id="@+id/button4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="animateTextColorAndSize"
+        android:padding="8dp"
+        android:textSize="24sp"
+        app:defaultTextColor="@android:color/holo_green_dark"
+        app:effect="animateTextColorAndSize"/>
+
+</LinearLayout>
