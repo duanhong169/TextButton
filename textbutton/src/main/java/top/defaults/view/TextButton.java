@@ -84,6 +84,7 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
         Logger.d("event action: %d", event.getAction());
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                if (!isEnabled()) return false;
                 if (!isClickable()) break;
 
                 getHitRect(viewRect);
