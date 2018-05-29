@@ -85,4 +85,12 @@
         app:defaultTextColor="@android:color/holo_green_dark"
         app:effect="animateTextColorAndSize"/>
 
+    <top.defaults.view.TextButton
+        android:id="@+id/button5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="custom"
+        android:padding="8dp"
+        android:textSize="24sp"
+        app:defaultTextColor="@android:color/black"/>
 </LinearLayout>

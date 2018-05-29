@@ -58,6 +58,7 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
         effectDuration = typedArray.getInt(R.styleable.TextButton_effectDuration, -1);
         typedArray.recycle();
 
+        effect = TextButtonEffect.Factory.create(this);
         apply();
     }
 
@@ -75,8 +76,21 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
         return settings;
     }
 
+    /**
+     * Set custom {@link TextButtonEffect}, which will override the xml settings
+     *
+     * @param effect user defined effect
+     */
+    public void setEffect(TextButtonEffect effect) {
+        if (effect == null) {
+            effect = TextButtonEffect.Factory.create(this);
+        }
+        this.effect = effect;
+        apply();
+    }
+
     private void apply() {
-        effect = TextButtonEffect.Factory.create(this);
+        effect.init(this);
 
         if (isUnderlined) {
             setPaintFlags(getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);

@@ -14,6 +14,7 @@ import me.ele.uetool.UETool;
 public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.button0) TextButton button0;
+    @BindView(R.id.button5) TextButton button5;
 
     @OnClick({R.id.button0, R.id.button1, R.id.button2, R.id.button3, R.id.button4})
     void onClick(View view) {
