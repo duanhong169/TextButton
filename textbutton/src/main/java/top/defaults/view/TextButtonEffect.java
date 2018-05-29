@@ -2,8 +2,6 @@ package top.defaults.view;
 
 import android.content.res.ColorStateList;
 
-import java.util.Map;
-
 public interface TextButtonEffect {
 
     int EFFECT_DEFAULT = 0;
@@ -11,7 +9,7 @@ public interface TextButtonEffect {
     int EFFECT_ANIMATE_TEXT_SIZE = 2;
     int EFFECT_ANIMATE_TEXT_COLOR_AND_SIZE = 3;
 
-    void init(TextButton textButton, Map<String, Object> params);
+    void init(TextButton textButton);
 
     void actionDown();
 
@@ -19,7 +17,7 @@ public interface TextButtonEffect {
 
     class Factory {
 
-        static TextButtonEffect create(TextButton textButton, int type, int duration) {
+        static TextButtonEffect create(TextButton textButton) {
             // Set default color state list first, other effect can override
             ColorStateList colorStateList = new ColorStateList(
                     new int[][]{
@@ -36,7 +34,7 @@ public interface TextButtonEffect {
             textButton.setTextColor(colorStateList);
 
             TextButtonEffect effect;
-            switch (type) {
+            switch (textButton.effectType) {
                 case EFFECT_ANIMATE_TEXT_COLOR:
                     effect = new AnimateTextColorEffect();
                     break;
@@ -49,9 +47,9 @@ public interface TextButtonEffect {
                         AnimateTextSizeEffect sizeEffect = new AnimateTextSizeEffect();
 
                         @Override
-                        public void init(TextButton textButton, Map<String, Object> params) {
-                            colorEffect.init(textButton, params);
-                            sizeEffect.init(textButton, params);
+                        public void init(TextButton textButton) {
+                            colorEffect.init(textButton);
+                            sizeEffect.init(textButton);
                         }
 
                         @Override
@@ -72,11 +70,7 @@ public interface TextButtonEffect {
                     break;
             }
 
-            Map<String, Object> settings = EffectSettings.defaultSettings(type);
-            if (duration > 0) {
-                settings.put(EffectSettings.KEY_DURATION, duration);
-            }
-            effect.init(textButton, settings);
+            effect.init(textButton);
             return effect;
         }
     }
@@ -84,7 +78,7 @@ public interface TextButtonEffect {
     class DefaultEffect implements TextButtonEffect {
 
         @Override
-        public void init(TextButton textButton, Map<String, Object> params) {
+        public void init(TextButton textButton) {
 
         }
 

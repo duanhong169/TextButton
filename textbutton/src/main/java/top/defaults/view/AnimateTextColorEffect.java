@@ -5,10 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 
-import java.util.Map;
-
-import top.defaults.logger.Logger;
-
 public class AnimateTextColorEffect implements TextButtonEffect {
 
     private ValueAnimator pressColorAnimation;
@@ -16,11 +12,11 @@ public class AnimateTextColorEffect implements TextButtonEffect {
     private Runnable reverseAnimation;
 
     @Override
-    public void init(final TextButton textButton, Map<String, Object> params) {
+    public void init(final TextButton textButton) {
         this.textButton = textButton;
         pressColorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(),
                 textButton.defaultTextColor, textButton.pressedTextColor);
-        EffectSettings.apply(pressColorAnimation, params);
+        EffectSettings.apply(pressColorAnimation, textButton.getSettings());
 
         pressColorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override

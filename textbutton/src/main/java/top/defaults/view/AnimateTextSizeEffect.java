@@ -7,8 +7,6 @@ import android.animation.ValueAnimator;
 import android.util.TypedValue;
 import android.view.ViewGroup;
 
-import java.util.Map;
-
 public class AnimateTextSizeEffect implements TextButtonEffect {
 
     private ValueAnimator pressSizeAnimation;
@@ -19,12 +17,12 @@ public class AnimateTextSizeEffect implements TextButtonEffect {
     private float originTextSize;
 
     @Override
-    public void init(final TextButton textButton, Map<String, Object> params) {
+    public void init(final TextButton textButton) {
         this.textButton = textButton;
         originTextSize = textButton.getTextSize();
         pressSizeAnimation = ValueAnimator.ofObject(new FloatEvaluator(),
                 originTextSize, Math.max(originTextSize - 4, textButton.getTextSize() * 0.9));
-        EffectSettings.apply(pressSizeAnimation, params);
+        EffectSettings.apply(pressSizeAnimation, textButton.getSettings());
 
         pressSizeAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override

@@ -11,9 +11,17 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import top.defaults.logger.Logger;
 import top.defaults.view.clickabletextview.R;
 
+import static top.defaults.view.EffectSettings.KEY_DEFAULT_TEXT_COLOR;
+import static top.defaults.view.EffectSettings.KEY_DISABLED_TEXT_COLOR;
+import static top.defaults.view.EffectSettings.KEY_EFFECT_DURATION;
+import static top.defaults.view.EffectSettings.KEY_IS_UNDERLINED;
+import static top.defaults.view.EffectSettings.KEY_PRESSED_TEXT_COLOR;
 import static top.defaults.view.TextButtonEffect.EFFECT_DEFAULT;
 
 public class TextButton extends android.support.v7.widget.AppCompatTextView {
@@ -53,8 +61,22 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
         apply();
     }
 
+    public Map<String, Object> getSettings() {
+        Map<String, Object> settings = new HashMap<>(10);
+
+        settings.put(KEY_DEFAULT_TEXT_COLOR, defaultTextColor);
+        settings.put(KEY_PRESSED_TEXT_COLOR, pressedTextColor);
+        settings.put(KEY_DISABLED_TEXT_COLOR, disabledTextColor);
+        settings.put(KEY_IS_UNDERLINED, isUnderlined);
+        settings.put(KEY_EFFECT_DURATION, effectDuration);
+
+        EffectSettings.reviewSettings(effectType, settings);
+
+        return settings;
+    }
+
     private void apply() {
-        effect = TextButtonEffect.Factory.create(this, effectType, effectDuration);
+        effect = TextButtonEffect.Factory.create(this);
 
         if (isUnderlined) {
             setPaintFlags(getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
