@@ -13,7 +13,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="eleme UE tool"
-        android:visibility="gone"
         android:checked="false"/>
 
     <LinearLayout
