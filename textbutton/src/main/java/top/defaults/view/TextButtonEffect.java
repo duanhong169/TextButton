@@ -19,7 +19,7 @@ public interface TextButtonEffect {
 
     class Factory {
 
-        static TextButtonEffect create(TextButton textButton, int type) {
+        static TextButtonEffect create(TextButton textButton, int type, int duration) {
             // Set default color state list first, other effect can override
             ColorStateList colorStateList = new ColorStateList(
                     new int[][]{
@@ -72,7 +72,11 @@ public interface TextButtonEffect {
                     break;
             }
 
-            effect.init(textButton, EffectSettings.defaultSettings(type));
+            Map<String, Object> settings = EffectSettings.defaultSettings(type);
+            if (duration > 0) {
+                settings.put(EffectSettings.KEY_DURATION, duration);
+            }
+            effect.init(textButton, settings);
             return effect;
         }
     }

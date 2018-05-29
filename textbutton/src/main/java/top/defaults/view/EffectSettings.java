@@ -4,10 +4,12 @@ import android.animation.ValueAnimator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Interpolator;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 public class EffectSettings {
-    private static final String KEY_DURATION = "key_duration";
+    static final String KEY_DURATION = "key_duration";
 
     private static final Interpolator DEFAULT_INTERPOLATOR = new AccelerateInterpolator();
     private static final int DURATION_SHORT = 100;
@@ -30,6 +32,6 @@ public class EffectSettings {
                 break;
         }
 
-        return null;
+        return new HashMap<>(3);
     }
 }

@@ -69,6 +69,10 @@
         android:padding="8dp"
         android:textSize="24sp"
         app:defaultTextColor="@android:color/holo_blue_dark"
+        app:pressedTextColor="@android:color/holo_orange_dark"
+        app:disabledTextColor="@android:color/darker_gray"
+        app:underline="true"
+        app:effectDuration="200"
         app:effect="animateTextColor"/>
 
     <top.defaults.view.TextButton

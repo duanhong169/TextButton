@@ -23,6 +23,7 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
     @ColorInt int disabledTextColor;
     boolean isUnderlined;
     int effectType;
+    int effectDuration;
     private TextButtonEffect effect;
 
     private Rect viewRect = new Rect();
@@ -45,13 +46,15 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
         disabledTextColor = typedArray.getColor(R.styleable.TextButton_disabledTextColor, calculateDisabledColor(defaultTextColor));
         isUnderlined = typedArray.getBoolean(R.styleable.TextButton_underline, false);
         effectType = typedArray.getInt(R.styleable.TextButton_effect, EFFECT_DEFAULT);
+        // -1 means use effect's default duration
+        effectDuration = typedArray.getInt(R.styleable.TextButton_effectDuration, -1);
         typedArray.recycle();
 
         apply();
     }
 
     private void apply() {
-        effect = TextButtonEffect.Factory.create(this, effectType);
+        effect = TextButtonEffect.Factory.create(this, effectType, effectDuration);
 
         if (isUnderlined) {
             setPaintFlags(getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);

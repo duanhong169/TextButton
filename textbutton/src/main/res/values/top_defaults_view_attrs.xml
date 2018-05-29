@@ -11,5 +11,6 @@
             <enum name="animateTextSize" value="2"/>
             <enum name="animateTextColorAndSize" value="3"/>
         </attr>
+        <attr name="effectDuration" format="integer"/>
     </declare-styleable>
 </resources>
