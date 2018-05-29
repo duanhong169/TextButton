@@ -135,6 +135,7 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
                 int relativelyY = (int) (event.getY() + getY());
                 if (viewRect.contains(relativelyX, relativelyY)) {
                     performClick();
+                    return true;
                 } else {
                     Logger.d("Canceled");
                 }
