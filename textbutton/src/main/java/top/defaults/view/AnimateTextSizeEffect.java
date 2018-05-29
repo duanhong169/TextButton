@@ -15,6 +15,7 @@ public class AnimateTextSizeEffect implements TextButtonEffect {
     private int originWidth;
     private int originHeight;
     private float originTextSize;
+    private Runnable reverseAnimation;
 
     @Override
     public void init(final TextButton textButton) {
@@ -70,16 +71,18 @@ public class AnimateTextSizeEffect implements TextButtonEffect {
     @Override
     public void actionDown() {
         pressSizeAnimation.cancel();
+        textButton.removeCallbacks(reverseAnimation);
         pressSizeAnimation.start();
     }
 
     @Override
     public void actionUp() {
-        textButton.postDelayed(new Runnable() {
+        reverseAnimation = new Runnable() {
             @Override
             public void run() {
                 pressSizeAnimation.reverse();
             }
-        }, pressSizeAnimation.getDuration() - pressSizeAnimation.getCurrentPlayTime());
+        };
+        textButton.postDelayed(reverseAnimation, pressSizeAnimation.getDuration() - pressSizeAnimation.getCurrentPlayTime());
     }
 }
