@@ -11,8 +11,11 @@
             <enum name="animateTextColor" value="1"/>
             <enum name="animateTextSize" value="2"/>
             <enum name="animateTextColorAndSize" value="3"/>
-            <enum name="ripple" value="4"/>
         </attr>
         <attr name="effectDuration" format="integer"/>
+        <attr name="backgroundEffect" format="enum">
+            <enum name="defaultEffect" value="0"/>
+            <enum name="ripple" value="1"/>
+        </attr>
     </declare-styleable>
 </resources>

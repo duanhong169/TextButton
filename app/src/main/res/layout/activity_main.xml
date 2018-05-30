@@ -31,6 +31,13 @@
             android:checked="false"/>
 
         <CheckBox
+            android:id="@+id/checkbox2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="with ripple"
+            android:checked="false"/>
+
+        <CheckBox
             android:id="@+id/ue_tool"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -92,16 +99,6 @@
         android:textSize="24sp"
         app:defaultTextColor="@android:color/holo_green_dark"
         app:effect="animateTextColorAndSize"/>
-
-    <top.defaults.view.TextButton
-        android:id="@+id/button5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ripple"
-        android:padding="8dp"
-        android:textSize="24sp"
-        app:defaultTextColor="@android:color/black"
-        app:effect="ripple"/>
 
     <top.defaults.view.TextButton
         android:id="@+id/button100"

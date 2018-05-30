@@ -23,6 +23,7 @@ import static top.defaults.view.EffectSettings.KEY_DISABLED_TEXT_COLOR;
 import static top.defaults.view.EffectSettings.KEY_EFFECT_DURATION;
 import static top.defaults.view.EffectSettings.KEY_IS_UNDERLINED;
 import static top.defaults.view.EffectSettings.KEY_PRESSED_TEXT_COLOR;
+import static top.defaults.view.TextButtonEffect.BACKGROUND_EFFECT_DEFAULT;
 import static top.defaults.view.TextButtonEffect.EFFECT_DEFAULT;
 
 public class TextButton extends android.support.v7.widget.AppCompatTextView {
@@ -36,7 +37,8 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
     boolean isUnderlined;
     int effectType;
     int effectDuration;
-    private TextButtonEffect effect;
+    int backgroundEffectType;
+    private EffectSet effects;
 
     private boolean isHighlighted;
 
@@ -61,6 +63,7 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
         effectType = typedArray.getInt(R.styleable.TextButton_effect, EFFECT_DEFAULT);
         // -1 means use effect's default duration
         effectDuration = typedArray.getInt(R.styleable.TextButton_effectDuration, -1);
+        backgroundEffectType = typedArray.getInt(R.styleable.TextButton_backgroundEffect, BACKGROUND_EFFECT_DEFAULT);
         typedArray.recycle();
 
         apply();
@@ -81,12 +84,17 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
     }
 
     /**
-     * Set custom {@link TextButtonEffect}, which will override the xml settings
+     * Set custom {@link TextButtonEffect}s, which will override the xml settings
      *
-     * @param effect user defined effect
+     * @param effects user defined effect
      */
-    public void setEffect(TextButtonEffect effect) {
-        this.effect = effect;
+    public void setEffects(TextButtonEffect... effects) {
+        this.effects.clear();
+        if (effects.length == 0) {
+            this.effects = null;
+        } else {
+            this.effects.add(effects);
+        }
         apply();
     }
 
@@ -101,17 +109,32 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
         apply();
     }
 
+    public void addRipple() {
+        if (effects == null) {
+            effects = new EffectSet();
+        }
+        effects.addRipple();
+        apply();
+    }
+
+    public void removeRipple() {
+        if (effects != null) {
+            effects.removeRipple();
+        }
+        apply();
+    }
+
     private void apply() {
         if (isEnabled() && isHighlighted) {
             setTextColor(highlightedTextColor);
         } else {
             setDefaultColorState();
 
-            if (effect == null) {
-                effect = TextButtonEffect.Factory.create(this);
+            if (effects == null) {
+                effects = TextButtonEffect.Factory.create(this);
             }
 
-            effect.init(this);
+            effects.init(this);
         }
 
         if (isUnderlined) {
@@ -161,7 +184,7 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
     }
 
     void setDefaultColorState() {
-        // Set default color state list first, other effect can override
+        // Set default color state list first, other effects can override
         setTextColor(getColorState());
     }
 
@@ -175,10 +198,10 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
         if (!isHighlighted && isEnabled() && isClickable()) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    effect.actionDown();
+                    effects.actionDown();
                     break;
                 case MotionEvent.ACTION_UP:
-                    effect.actionUp();
+                    effects.actionUp();
                     break;
             }
         }

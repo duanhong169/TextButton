@@ -14,11 +14,11 @@ public class RippleEffect implements TextButtonEffect {
                             new int[]{} // this should be empty to make default color as we want
                     },
                     new int[]{
-                            textButton.disabledTextColor
+                            textButton.defaultTextColor
                     }
             );
 
-            RippleDrawable ripple = new RippleDrawable(colorStateList, null, new ColorDrawable(0xffffffff));
+            RippleDrawable ripple = new RippleDrawable(colorStateList, null, new ColorDrawable(0x43ffffff));
             textButton.setBackground(ripple);
         }
     }

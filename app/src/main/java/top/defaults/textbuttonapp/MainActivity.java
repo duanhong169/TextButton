@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.button2) TextButton button2;
     @BindView(R.id.button3) TextButton button3;
     @BindView(R.id.button4) TextButton button4;
-    @BindView(R.id.button5) TextButton button5;
     @BindView(R.id.button100) TextButton button100;
     List<TextButton> buttons = new ArrayList<>();
 
@@ -57,6 +56,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @OnCheckedChanged(R.id.checkbox2)
+    void onWithRippleChanged(boolean checked) {
+        for (TextButton button: buttons) {
+            if (checked) {
+                button.addRipple();
+            } else {
+                button.removeRipple();
+            }
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,10 +78,9 @@ public class MainActivity extends AppCompatActivity {
         buttons.add(button2);
         buttons.add(button3);
         buttons.add(button4);
-        buttons.add(button5);
         buttons.add(button100);
 
-        button100.setEffect(new TextButtonEffect() {
+        button100.setEffects(new TextButtonEffect() {
             private TextButton textButton;
 
             @Override

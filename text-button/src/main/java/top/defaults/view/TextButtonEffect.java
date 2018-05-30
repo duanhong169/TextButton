@@ -6,7 +6,8 @@ public interface TextButtonEffect {
     int EFFECT_ANIMATE_TEXT_COLOR = 1;
     int EFFECT_ANIMATE_TEXT_SIZE = 2;
     int EFFECT_ANIMATE_TEXT_COLOR_AND_SIZE = 3;
-    int EFFECT_RIPPLE = 4;
+    int BACKGROUND_EFFECT_DEFAULT = 0;
+    int BACKGROUND_EFFECT_RIPPLE = 1;
 
     void init(TextButton textButton);
 
@@ -16,53 +17,38 @@ public interface TextButtonEffect {
 
     class Factory {
 
-        static TextButtonEffect create(TextButton textButton) {
-            TextButtonEffect effect;
+        static EffectSet create(TextButton textButton) {
+            EffectSet effectSet = new EffectSet();
             switch (textButton.effectType) {
                 case EFFECT_ANIMATE_TEXT_COLOR:
-                    effect = new AnimateTextColorEffect();
+                    effectSet.add(new AnimateTextColorEffect());
                     break;
                 case EFFECT_ANIMATE_TEXT_SIZE:
-                    effect = new AnimateTextSizeEffect();
+                    effectSet.add(new AnimateTextSizeEffect());
                     break;
                 case EFFECT_ANIMATE_TEXT_COLOR_AND_SIZE:
-                    effect = new TextButtonEffect() {
-                        AnimateTextColorEffect colorEffect = new AnimateTextColorEffect();
-                        AnimateTextSizeEffect sizeEffect = new AnimateTextSizeEffect();
-
-                        @Override
-                        public void init(TextButton textButton) {
-                            colorEffect.init(textButton);
-                            sizeEffect.init(textButton);
-                        }
-
-                        @Override
-                        public void actionDown() {
-                            colorEffect.actionDown();
-                            sizeEffect.actionDown();
-                        }
-
-                        @Override
-                        public void actionUp() {
-                            colorEffect.actionUp();
-                            sizeEffect.actionUp();
-                        }
-                    };
-                    break;
-                case EFFECT_RIPPLE:
-                    effect = new RippleEffect();
+                    effectSet.add(new AnimateTextColorEffect());
+                    effectSet.add(new AnimateTextSizeEffect());
                     break;
                 default:
-                    effect = new DefaultEffect();
+                    effectSet.add(new DefaultTextEffect());
                     break;
             }
 
-            effect.init(textButton);
-            return effect;
+            switch (textButton.backgroundEffectType) {
+                case BACKGROUND_EFFECT_RIPPLE:
+                    effectSet.add(new RippleEffect());
+                    break;
+                default:
+                    break;
+            }
+
+            effectSet.init(textButton);
+            return effectSet;
         }
     }
 
-    class DefaultEffect implements TextButtonEffect {
+    class DefaultTextEffect implements TextButtonEffect {
 
         @Override
         public void init(TextButton textButton) {
