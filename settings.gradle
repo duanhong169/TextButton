@@ -1,1 +1,1 @@
-include ':app', ':textbutton'
+include ':app', ':text-button'
