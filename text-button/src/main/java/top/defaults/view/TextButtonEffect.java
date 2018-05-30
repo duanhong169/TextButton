@@ -1,13 +1,12 @@
 package top.defaults.view;
 
-import android.content.res.ColorStateList;
-
 public interface TextButtonEffect {
 
     int EFFECT_DEFAULT = 0;
     int EFFECT_ANIMATE_TEXT_COLOR = 1;
     int EFFECT_ANIMATE_TEXT_SIZE = 2;
     int EFFECT_ANIMATE_TEXT_COLOR_AND_SIZE = 3;
+    int EFFECT_RIPPLE = 4;
 
     void init(TextButton textButton);
 
@@ -49,6 +48,9 @@ public interface TextButtonEffect {
                             sizeEffect.actionUp();
                         }
                     };
+                    break;
+                case EFFECT_RIPPLE:
+                    effect = new RippleEffect();
                     break;
                 default:
                     effect = new DefaultEffect();

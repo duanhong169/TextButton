@@ -145,9 +145,8 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
         return Color.HSVToColor(alpha, hsv);
     }
 
-    void setDefaultColorState() {
-        // Set default color state list first, other effect can override
-        ColorStateList colorStateList = new ColorStateList(
+    ColorStateList getColorState() {
+        return new ColorStateList(
                 new int[][]{
                         new int[]{ android.R.attr.state_pressed },
                         new int[]{ -android.R.attr.state_enabled },
@@ -159,7 +158,11 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
                         defaultTextColor
                 }
         );
-        setTextColor(colorStateList);
+    }
+
+    void setDefaultColorState() {
+        // Set default color state list first, other effect can override
+        setTextColor(getColorState());
     }
 
     @SuppressLint("ClickableViewAccessibility")

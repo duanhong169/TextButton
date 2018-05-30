@@ -25,9 +25,10 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.button3) TextButton button3;
     @BindView(R.id.button4) TextButton button4;
     @BindView(R.id.button5) TextButton button5;
+    @BindView(R.id.button100) TextButton button100;
     List<TextButton> buttons = new ArrayList<>();
 
-    @OnClick({R.id.button0, R.id.button1, R.id.button2, R.id.button3, R.id.button4, R.id.button5})
+    @OnClick({R.id.button0, R.id.button1, R.id.button2, R.id.button3, R.id.button4, R.id.button100})
     void onClick(TextView view) {
         Logger.d("Clicked: %s", view.getText());
     }
@@ -68,8 +69,9 @@ public class MainActivity extends AppCompatActivity {
         buttons.add(button3);
         buttons.add(button4);
         buttons.add(button5);
+        buttons.add(button100);
 
-        button5.setEffect(new TextButtonEffect() {
+        button100.setEffect(new TextButtonEffect() {
             private TextButton textButton;
 
             @Override
