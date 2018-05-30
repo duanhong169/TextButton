@@ -1,10 +1,10 @@
 package top.defaults.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -26,6 +26,8 @@ import static top.defaults.view.TextButtonEffect.EFFECT_DEFAULT;
 
 public class TextButton extends android.support.v7.widget.AppCompatTextView {
 
+    private static final boolean DEBUG = false;
+
     @ColorInt int defaultTextColor;
     @ColorInt int pressedTextColor;
     @ColorInt int disabledTextColor;
@@ -33,8 +35,6 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
     int effectType;
     int effectDuration;
     private TextButtonEffect effect;
-
-    private Rect viewRect = new Rect();
 
     public TextButton(Context context) {
         this(context, null);
@@ -113,32 +113,21 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
         return Color.HSVToColor(alpha, hsv);
     }
 
-    @Override
-    public boolean performClick() {
-        return super.performClick();
-    }
-
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        Logger.d("event action: %d", event.getAction());
+        if (DEBUG) {
+            Logger.d("event action: %d", event.getAction());
+        }
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                if (!isEnabled()) return false;
+                if (!isEnabled()) break;
                 if (!isClickable()) break;
 
-                getHitRect(viewRect);
                 effect.actionDown();
                 break;
             case MotionEvent.ACTION_UP:
                 effect.actionUp();
-                int relativelyX = (int) (event.getX() + getX());
-                int relativelyY = (int) (event.getY() + getY());
-                if (viewRect.contains(relativelyX, relativelyY)) {
-                    performClick();
-                    return true;
-                } else {
-                    Logger.d("Canceled");
-                }
                 break;
         }
 
