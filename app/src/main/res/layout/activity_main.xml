@@ -8,26 +8,13 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <CheckBox
-        android:id="@+id/ue_tool"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="eleme UE tool"
-        android:checked="false"/>
-
-    <LinearLayout
+    <com.google.android.flexbox.FlexboxLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <top.defaults.view.TextButton
-            android:id="@+id/button0"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="enabled"
-            android:padding="8dp"
-            android:textSize="24sp"
-            app:defaultTextColor="@android:color/holo_purple"
-            app:disabledTextColor="@android:color/darker_gray"/>
+        android:layout_height="wrap_content"
+        app:flexWrap="wrap"
+        app:alignItems="flex_start" >
 
         <CheckBox
             android:id="@+id/checkbox0"
@@ -36,7 +23,30 @@
             android:text="disabled"
             android:checked="false"/>
 
-    </LinearLayout>
+        <CheckBox
+            android:id="@+id/checkbox1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="highlighted"
+            android:checked="false"/>
+
+        <CheckBox
+            android:id="@+id/ue_tool"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="eleme UE tool"
+            android:checked="false"/>
+    </com.google.android.flexbox.FlexboxLayout>
+
+    <top.defaults.view.TextButton
+        android:id="@+id/button0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="enabled"
+        android:padding="8dp"
+        android:textSize="24sp"
+        app:defaultTextColor="@android:color/holo_purple"
+        app:disabledTextColor="@android:color/darker_gray"/>
 
     <top.defaults.view.TextButton
         android:id="@+id/button1"

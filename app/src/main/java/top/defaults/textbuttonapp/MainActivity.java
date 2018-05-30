@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
@@ -22,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.button3) TextButton button3;
     @BindView(R.id.button4) TextButton button4;
     @BindView(R.id.button5) TextButton button5;
+    List<TextButton> buttons = new ArrayList<>();
 
     @OnClick({R.id.button0, R.id.button1, R.id.button2, R.id.button3, R.id.button4, R.id.button5})
     void onClick(TextView view) {
@@ -39,13 +43,17 @@ public class MainActivity extends AppCompatActivity {
 
     @OnCheckedChanged(R.id.checkbox0)
     void onDisabledChanged(boolean checked) {
-        button0.setEnabled(!checked);
         button0.setText(checked ? "disabled" : "enabled");
-        button1.setEnabled(!checked);
-        button2.setEnabled(!checked);
-        button3.setEnabled(!checked);
-        button4.setEnabled(!checked);
-        button5.setEnabled(!checked);
+        for (TextButton button: buttons) {
+            button.setEnabled(!checked);
+        }
+    }
+
+    @OnCheckedChanged(R.id.checkbox1)
+    void onHighlightedChanged(boolean checked) {
+        for (TextButton button: buttons) {
+            button.setHighlighted(checked);
+        }
     }
 
     @Override
@@ -53,6 +61,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        buttons.add(button0);
+        buttons.add(button1);
+        buttons.add(button2);
+        buttons.add(button3);
+        buttons.add(button4);
+        buttons.add(button5);
 
         button5.setEffect(new TextButtonEffect() {
             private TextButton textButton;

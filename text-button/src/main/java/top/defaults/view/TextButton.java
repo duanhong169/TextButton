@@ -38,6 +38,8 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
     int effectDuration;
     private TextButtonEffect effect;
 
+    private boolean isHighlighted;
+
     public TextButton(Context context) {
         this(context, null);
     }
@@ -88,14 +90,29 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
         apply();
     }
 
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        apply();
+    }
+
+    public void setHighlighted(boolean highlighted) {
+        isHighlighted = highlighted;
+        apply();
+    }
+
     private void apply() {
-        setDefaultColorState();
+        if (isEnabled() && isHighlighted) {
+            setTextColor(highlightedTextColor);
+        } else {
+            setDefaultColorState();
 
-        if (effect == null) {
-            effect = TextButtonEffect.Factory.create(this);
+            if (effect == null) {
+                effect = TextButtonEffect.Factory.create(this);
+            }
+
+            effect.init(this);
         }
-
-        effect.init(this);
 
         if (isUnderlined) {
             setPaintFlags(getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -114,8 +131,8 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
         int alpha = Color.alpha(defaultColor);
         float[] hsv = new float[3];
         Color.colorToHSV(defaultColor, hsv);
-        if (hsv[1] < 0.2f) return 0xffaaaaaa;
-        hsv[1] = Math.max(0, hsv[1] - 0.4f);
+        if (hsv[2] < 0.3f) return 0xffaaaaaa;
+        hsv[2] = Math.max(0, hsv[2] - 0.3f);
         return Color.HSVToColor(alpha, hsv);
     }
 
@@ -123,8 +140,8 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
         int alpha = Color.alpha(defaultColor);
         float[] hsv = new float[3];
         Color.colorToHSV(defaultColor, hsv);
-        if (hsv[1] > 0.8f) return 0xffaa0000;
-        hsv[1] = Math.min(1, hsv[1] + 0.4f);
+        if (hsv[2] > 0.7f) return 0xfff44336;
+        hsv[2] = Math.min(1, hsv[2] + 0.3f);
         return Color.HSVToColor(alpha, hsv);
     }
 
@@ -152,7 +169,7 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
             Logger.d("event action: %d", event.getAction());
         }
 
-        if (isEnabled() && isClickable()) {
+        if (!isHighlighted && isEnabled() && isClickable()) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     effect.actionDown();

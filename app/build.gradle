@@ -23,6 +23,7 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     implementation 'com.jakewharton:butterknife:8.7.0'
+    implementation 'com.google.android:flexbox:1.0.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
     debugImplementation 'me.ele:uetool:1.0.15'
     releaseImplementation 'me.ele:uetool-no-op:1.0.15'
