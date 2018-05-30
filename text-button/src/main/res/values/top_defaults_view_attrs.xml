@@ -4,6 +4,7 @@
         <attr name="defaultTextColor" format="color"/>
         <attr name="pressedTextColor" format="color"/>
         <attr name="disabledTextColor" format="color"/>
+        <attr name="highlightedTextColor" format="color"/>
         <attr name="underline" format="boolean"/>
         <attr name="effect" format="enum">
             <enum name="defaultEffect" value="0"/>

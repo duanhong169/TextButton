@@ -27,6 +27,7 @@ dependencies {
     debugImplementation 'me.ele:uetool:1.0.15'
     releaseImplementation 'me.ele:uetool-no-op:1.0.15'
     implementation 'com.github.duanhong169:logger:1.0.0'
+//    implementation 'com.github.duanhong169:text-button:1.0.1'
     implementation project(':text-button')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

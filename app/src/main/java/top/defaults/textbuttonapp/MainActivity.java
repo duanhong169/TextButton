@@ -17,6 +17,10 @@ import top.defaults.view.TextButtonEffect;
 public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.button0) TextButton button0;
+    @BindView(R.id.button1) TextButton button1;
+    @BindView(R.id.button2) TextButton button2;
+    @BindView(R.id.button3) TextButton button3;
+    @BindView(R.id.button4) TextButton button4;
     @BindView(R.id.button5) TextButton button5;
 
     @OnClick({R.id.button0, R.id.button1, R.id.button2, R.id.button3, R.id.button4, R.id.button5})
@@ -37,6 +41,11 @@ public class MainActivity extends AppCompatActivity {
     void onDisabledChanged(boolean checked) {
         button0.setEnabled(!checked);
         button0.setText(checked ? "disabled" : "enabled");
+        button1.setEnabled(!checked);
+        button2.setEnabled(!checked);
+        button3.setEnabled(!checked);
+        button4.setEnabled(!checked);
+        button5.setEnabled(!checked);
     }
 
     @Override

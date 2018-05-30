@@ -27,9 +27,17 @@ public class AnimateTextColorEffect implements TextButtonEffect {
         });
 
         pressColorAnimation.addListener(new AnimatorListenerAdapter() {
+
+            @Override
+            public void onAnimationEnd(Animator animation, boolean isReverse) {
+                if (isReverse) {
+                    textButton.setDefaultColorState();
+                }
+            }
+
             @Override
             public void onAnimationCancel(Animator animation) {
-                textButton.setTextColor(textButton.defaultTextColor);
+                textButton.setDefaultColorState();
             }
         });
     }

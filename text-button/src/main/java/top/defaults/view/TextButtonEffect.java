@@ -18,21 +18,6 @@ public interface TextButtonEffect {
     class Factory {
 
         static TextButtonEffect create(TextButton textButton) {
-            // Set default color state list first, other effect can override
-            ColorStateList colorStateList = new ColorStateList(
-                    new int[][]{
-                            new int[]{ android.R.attr.state_pressed },
-                            new int[]{ -android.R.attr.state_enabled },
-                            new int[]{} // this should be empty to make default color as we want
-                    },
-                    new int[]{
-                            textButton.pressedTextColor,
-                            textButton.disabledTextColor,
-                            textButton.defaultTextColor
-                    }
-            );
-            textButton.setTextColor(colorStateList);
-
             TextButtonEffect effect;
             switch (textButton.effectType) {
                 case EFFECT_ANIMATE_TEXT_COLOR:

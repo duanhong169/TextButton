@@ -2,6 +2,7 @@ package top.defaults.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -31,6 +32,7 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
     @ColorInt int defaultTextColor;
     @ColorInt int pressedTextColor;
     @ColorInt int disabledTextColor;
+    @ColorInt int highlightedTextColor;
     boolean isUnderlined;
     int effectType;
     int effectDuration;
@@ -52,13 +54,13 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
         defaultTextColor = typedArray.getColor(R.styleable.TextButton_defaultTextColor, getCurrentTextColor());
         pressedTextColor = typedArray.getColor(R.styleable.TextButton_pressedTextColor, calculatePressedColor(defaultTextColor));
         disabledTextColor = typedArray.getColor(R.styleable.TextButton_disabledTextColor, calculateDisabledColor(defaultTextColor));
+        highlightedTextColor = typedArray.getColor(R.styleable.TextButton_highlightedTextColor, calculateHighlightedColor(defaultTextColor));
         isUnderlined = typedArray.getBoolean(R.styleable.TextButton_underline, false);
         effectType = typedArray.getInt(R.styleable.TextButton_effect, EFFECT_DEFAULT);
         // -1 means use effect's default duration
         effectDuration = typedArray.getInt(R.styleable.TextButton_effectDuration, -1);
         typedArray.recycle();
 
-        effect = TextButtonEffect.Factory.create(this);
         apply();
     }
 
@@ -82,14 +84,17 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
      * @param effect user defined effect
      */
     public void setEffect(TextButtonEffect effect) {
-        if (effect == null) {
-            effect = TextButtonEffect.Factory.create(this);
-        }
         this.effect = effect;
         apply();
     }
 
     private void apply() {
+        setDefaultColorState();
+
+        if (effect == null) {
+            effect = TextButtonEffect.Factory.create(this);
+        }
+
         effect.init(this);
 
         if (isUnderlined) {
@@ -109,8 +114,35 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
         int alpha = Color.alpha(defaultColor);
         float[] hsv = new float[3];
         Color.colorToHSV(defaultColor, hsv);
+        if (hsv[1] < 0.2f) return 0xffaaaaaa;
         hsv[1] = Math.max(0, hsv[1] - 0.4f);
         return Color.HSVToColor(alpha, hsv);
+    }
+
+    private int calculateHighlightedColor(@ColorInt int defaultColor) {
+        int alpha = Color.alpha(defaultColor);
+        float[] hsv = new float[3];
+        Color.colorToHSV(defaultColor, hsv);
+        if (hsv[1] > 0.8f) return 0xffaa0000;
+        hsv[1] = Math.min(1, hsv[1] + 0.4f);
+        return Color.HSVToColor(alpha, hsv);
+    }
+
+    void setDefaultColorState() {
+        // Set default color state list first, other effect can override
+        ColorStateList colorStateList = new ColorStateList(
+                new int[][]{
+                        new int[]{ android.R.attr.state_pressed },
+                        new int[]{ -android.R.attr.state_enabled },
+                        new int[]{} // this should be empty to make default color as we want
+                },
+                new int[]{
+                        pressedTextColor,
+                        disabledTextColor,
+                        defaultTextColor
+                }
+        );
+        setTextColor(colorStateList);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -119,16 +151,16 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
         if (DEBUG) {
             Logger.d("event action: %d", event.getAction());
         }
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                if (!isEnabled()) break;
-                if (!isClickable()) break;
 
-                effect.actionDown();
-                break;
-            case MotionEvent.ACTION_UP:
-                effect.actionUp();
-                break;
+        if (isEnabled() && isClickable()) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    effect.actionDown();
+                    break;
+                case MotionEvent.ACTION_UP:
+                    effect.actionUp();
+                    break;
+            }
         }
 
         return super.onTouchEvent(event);
