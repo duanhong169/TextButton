@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import top.defaults.logger.Logger;
-import top.defaults.view.clickabletextview.R;
+import top.defaults.view.textbutton.R;
 
 import static top.defaults.view.EffectSettings.KEY_DEFAULT_TEXT_COLOR;
 import static top.defaults.view.EffectSettings.KEY_DISABLED_TEXT_COLOR;
