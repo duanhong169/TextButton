@@ -40,9 +40,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @OnCheckedChanged(R.id.checkbox1)
-    void onHighlightedChanged(boolean checked) {
+    void onSelectedChanged(boolean checked) {
         for (TextButton button: buttons) {
-            button.setHighlighted(checked);
+            button.setSelected(checked);
         }
     }
 

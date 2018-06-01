@@ -32,20 +32,18 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
     @ColorInt int defaultTextColor;
     @ColorInt int pressedTextColor;
     @ColorInt int disabledTextColor;
-    @ColorInt int highlightedTextColor;
+    @ColorInt int selectedTextColor;
     boolean isUnderlined;
     int effectType;
     int effectDuration;
     @ColorInt int defaultBackgroundColor;
     @ColorInt int pressedBackgroundColor;
     @ColorInt int disabledBackgroundColor;
-    @ColorInt int highlightedBackgroundColor;
+    @ColorInt int selectedBackgroundColor;
     int backgroundEffectType;
     @ColorInt int defaultRippleColor;
     @ColorInt int pressedRippleColor;
     private EffectSet effects;
-
-    private boolean isHighlighted;
 
     public TextButton(Context context) {
         this(context, null);
@@ -63,7 +61,7 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
         defaultTextColor = typedArray.getColor(R.styleable.TextButton_defaultTextColor, getCurrentTextColor());
         pressedTextColor = typedArray.getColor(R.styleable.TextButton_pressedTextColor, calculatePressedColor(defaultTextColor));
         disabledTextColor = typedArray.getColor(R.styleable.TextButton_disabledTextColor, calculateDisabledColor(defaultTextColor));
-        highlightedTextColor = typedArray.getColor(R.styleable.TextButton_highlightedTextColor, calculateHighlightedColor(defaultTextColor));
+        selectedTextColor = typedArray.getColor(R.styleable.TextButton_selectedTextColor, calculateSelectedColor(defaultTextColor));
         isUnderlined = typedArray.getBoolean(R.styleable.TextButton_underline, false);
         effectType = typedArray.getInt(R.styleable.TextButton_textEffect, TEXT_EFFECT_DEFAULT);
         // -1 means use effect's default duration
@@ -71,7 +69,7 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
         defaultBackgroundColor = typedArray.getColor(R.styleable.TextButton_defaultBackgroundColor, 0);
         pressedBackgroundColor = typedArray.getColor(R.styleable.TextButton_pressedBackgroundColor, calculatePressedColor(defaultBackgroundColor));
         disabledBackgroundColor = typedArray.getColor(R.styleable.TextButton_disabledBackgroundColor, calculateDisabledColor(defaultBackgroundColor));
-        highlightedBackgroundColor = typedArray.getColor(R.styleable.TextButton_highlightedBackgroundColor, calculateHighlightedColor(defaultBackgroundColor));
+        selectedBackgroundColor = typedArray.getColor(R.styleable.TextButton_selectedBackgroundColor, calculateSelectedColor(defaultBackgroundColor));
         backgroundEffectType = typedArray.getInt(R.styleable.TextButton_backgroundEffect, BACKGROUND_EFFECT_DEFAULT);
         defaultRippleColor = typedArray.getColor(R.styleable.TextButton_defaultRippleColor, defaultTextColor);
         pressedRippleColor = typedArray.getColor(R.styleable.TextButton_pressedRippleColor, pressedTextColor);
@@ -108,8 +106,9 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
         apply();
     }
 
-    public void setHighlighted(boolean highlighted) {
-        isHighlighted = highlighted;
+    @Override
+    public void setSelected(boolean selected) {
+        super.setSelected(selected);
         apply();
     }
 
@@ -129,18 +128,13 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
     }
 
     private void apply() {
-        if (isEnabled() && isHighlighted) {
-            setTextColor(highlightedTextColor);
-            setBackgroundColor(highlightedBackgroundColor);
-        } else {
-            setDefaultTextColorState();
+        setDefaultTextColorState();
 
-            if (effects == null) {
-                effects = TextButtonEffect.Factory.create(this);
-            }
-
-            effects.init(this);
+        if (effects == null) {
+            effects = TextButtonEffect.Factory.create(this);
         }
+
+        effects.init(this);
 
         if (isUnderlined) {
             setPaintFlags(getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -164,7 +158,7 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
         return Color.HSVToColor(alpha, hsv);
     }
 
-    private int calculateHighlightedColor(@ColorInt int defaultColor) {
+    private int calculateSelectedColor(@ColorInt int defaultColor) {
         int alpha = Color.alpha(defaultColor);
         float[] hsv = new float[3];
         Color.colorToHSV(defaultColor, hsv);
@@ -178,11 +172,13 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
                 new int[][]{
                         new int[]{ android.R.attr.state_pressed },
                         new int[]{ -android.R.attr.state_enabled },
+                        new int[]{ android.R.attr.state_selected },
                         new int[]{} // this should be empty to make default color as we want
                 },
                 new int[]{
                         pressedTextColor,
                         disabledTextColor,
+                        selectedTextColor,
                         defaultTextColor
                 }
         );
@@ -197,6 +193,7 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
         StateListDrawable stateListDrawable = new StateListDrawable();
         stateListDrawable.addState(new int[]{android.R.attr.state_pressed}, new ColorDrawable(pressedBackgroundColor));
         stateListDrawable.addState(new int[]{-android.R.attr.state_enabled}, new ColorDrawable(disabledBackgroundColor));
+        stateListDrawable.addState(new int[]{android.R.attr.state_selected}, new ColorDrawable(selectedBackgroundColor));
         stateListDrawable.addState(StateSet.WILD_CARD, new ColorDrawable(defaultBackgroundColor));
         return stateListDrawable;
     }
@@ -213,7 +210,7 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
             Logger.d("event action: %d", event.getAction());
         }
 
-        if (!isHighlighted && isEnabled() && isClickable()) {
+        if (isEnabled() && isClickable()) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     effects.actionDown();
