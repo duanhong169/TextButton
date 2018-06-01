@@ -6,9 +6,12 @@ import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.StateSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
 
@@ -18,13 +21,9 @@ import java.util.Map;
 import top.defaults.logger.Logger;
 import top.defaults.view.textbutton.R;
 
-import static top.defaults.view.EffectSettings.KEY_DEFAULT_TEXT_COLOR;
-import static top.defaults.view.EffectSettings.KEY_DISABLED_TEXT_COLOR;
 import static top.defaults.view.EffectSettings.KEY_EFFECT_DURATION;
-import static top.defaults.view.EffectSettings.KEY_IS_UNDERLINED;
-import static top.defaults.view.EffectSettings.KEY_PRESSED_TEXT_COLOR;
 import static top.defaults.view.TextButtonEffect.BACKGROUND_EFFECT_DEFAULT;
-import static top.defaults.view.TextButtonEffect.EFFECT_DEFAULT;
+import static top.defaults.view.TextButtonEffect.TEXT_EFFECT_DEFAULT;
 
 public class TextButton extends android.support.v7.widget.AppCompatTextView {
 
@@ -37,7 +36,13 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
     boolean isUnderlined;
     int effectType;
     int effectDuration;
+    @ColorInt int defaultBackgroundColor;
+    @ColorInt int pressedBackgroundColor;
+    @ColorInt int disabledBackgroundColor;
+    @ColorInt int highlightedBackgroundColor;
     int backgroundEffectType;
+    @ColorInt int defaultRippleColor;
+    @ColorInt int pressedRippleColor;
     private EffectSet effects;
 
     private boolean isHighlighted;
@@ -60,10 +65,16 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
         disabledTextColor = typedArray.getColor(R.styleable.TextButton_disabledTextColor, calculateDisabledColor(defaultTextColor));
         highlightedTextColor = typedArray.getColor(R.styleable.TextButton_highlightedTextColor, calculateHighlightedColor(defaultTextColor));
         isUnderlined = typedArray.getBoolean(R.styleable.TextButton_underline, false);
-        effectType = typedArray.getInt(R.styleable.TextButton_effect, EFFECT_DEFAULT);
+        effectType = typedArray.getInt(R.styleable.TextButton_textEffect, TEXT_EFFECT_DEFAULT);
         // -1 means use effect's default duration
         effectDuration = typedArray.getInt(R.styleable.TextButton_effectDuration, -1);
+        defaultBackgroundColor = typedArray.getColor(R.styleable.TextButton_defaultBackgroundColor, 0);
+        pressedBackgroundColor = typedArray.getColor(R.styleable.TextButton_pressedBackgroundColor, calculatePressedColor(defaultBackgroundColor));
+        disabledBackgroundColor = typedArray.getColor(R.styleable.TextButton_disabledBackgroundColor, calculateDisabledColor(defaultBackgroundColor));
+        highlightedBackgroundColor = typedArray.getColor(R.styleable.TextButton_highlightedBackgroundColor, calculateHighlightedColor(defaultBackgroundColor));
         backgroundEffectType = typedArray.getInt(R.styleable.TextButton_backgroundEffect, BACKGROUND_EFFECT_DEFAULT);
+        defaultRippleColor = typedArray.getColor(R.styleable.TextButton_defaultRippleColor, defaultTextColor);
+        pressedRippleColor = typedArray.getColor(R.styleable.TextButton_pressedRippleColor, pressedTextColor);
         typedArray.recycle();
 
         apply();
@@ -71,15 +82,8 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
 
     public Map<String, Object> getSettings() {
         Map<String, Object> settings = new HashMap<>(10);
-
-        settings.put(KEY_DEFAULT_TEXT_COLOR, defaultTextColor);
-        settings.put(KEY_PRESSED_TEXT_COLOR, pressedTextColor);
-        settings.put(KEY_DISABLED_TEXT_COLOR, disabledTextColor);
-        settings.put(KEY_IS_UNDERLINED, isUnderlined);
         settings.put(KEY_EFFECT_DURATION, effectDuration);
-
-        EffectSettings.reviewSettings(effectType, settings);
-
+        EffectSettings.reviewAndAdjustSettings(effectType, settings);
         return settings;
     }
 
@@ -127,8 +131,9 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
     private void apply() {
         if (isEnabled() && isHighlighted) {
             setTextColor(highlightedTextColor);
+            setBackgroundColor(highlightedBackgroundColor);
         } else {
-            setDefaultColorState();
+            setDefaultTextColorState();
 
             if (effects == null) {
                 effects = TextButtonEffect.Factory.create(this);
@@ -168,7 +173,7 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
         return Color.HSVToColor(alpha, hsv);
     }
 
-    ColorStateList getColorState() {
+    ColorStateList getTextColorState() {
         return new ColorStateList(
                 new int[][]{
                         new int[]{ android.R.attr.state_pressed },
@@ -183,9 +188,22 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
         );
     }
 
-    void setDefaultColorState() {
+    void setDefaultTextColorState() {
         // Set default color state list first, other effects can override
-        setTextColor(getColorState());
+        setTextColor(getTextColorState());
+    }
+
+    StateListDrawable getBackgroundColorStateDrawable() {
+        StateListDrawable stateListDrawable = new StateListDrawable();
+        stateListDrawable.addState(new int[]{android.R.attr.state_pressed}, new ColorDrawable(pressedBackgroundColor));
+        stateListDrawable.addState(new int[]{-android.R.attr.state_enabled}, new ColorDrawable(disabledBackgroundColor));
+        stateListDrawable.addState(StateSet.WILD_CARD, new ColorDrawable(defaultBackgroundColor));
+        return stateListDrawable;
+    }
+
+    void setColorStateBackground() {
+        // Set default background color state list first, other effects can override
+        setBackgroundDrawable(getBackgroundColorStateDrawable());
     }
 
     @SuppressLint("ClickableViewAccessibility")

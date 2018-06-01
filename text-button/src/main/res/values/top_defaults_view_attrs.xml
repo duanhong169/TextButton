@@ -6,16 +6,23 @@
         <attr name="disabledTextColor" format="color"/>
         <attr name="highlightedTextColor" format="color"/>
         <attr name="underline" format="boolean"/>
-        <attr name="effect" format="enum">
+        <attr name="textEffect" format="enum">
             <enum name="defaultEffect" value="0"/>
-            <enum name="animateTextColor" value="1"/>
-            <enum name="animateTextSize" value="2"/>
-            <enum name="animateTextColorAndSize" value="3"/>
+            <enum name="animateColor" value="1"/>
+            <enum name="animateSize" value="2"/>
+            <enum name="animateColorAndSize" value="3"/>
         </attr>
         <attr name="effectDuration" format="integer"/>
+        <attr name="defaultBackgroundColor" format="color"/>
+        <attr name="pressedBackgroundColor" format="color"/>
+        <attr name="disabledBackgroundColor" format="color"/>
+        <attr name="highlightedBackgroundColor" format="color"/>
         <attr name="backgroundEffect" format="enum">
             <enum name="defaultEffect" value="0"/>
             <enum name="ripple" value="1"/>
+            <enum name="animateColor" value="2"/>
         </attr>
+        <attr name="defaultRippleColor" format="color"/>
+        <attr name="pressedRippleColor" format="color"/>
     </declare-styleable>
 </resources>

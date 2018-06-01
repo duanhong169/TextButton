@@ -17,42 +17,62 @@ public class EffectSet implements TextButtonEffect {
     }
 
     public void addRipple() {
-        boolean hasRipple = false;
-        for (TextButtonEffect effect: effects) {
-            if (effect instanceof RippleEffect) {
-                hasRipple = true;
-            }
-        }
-
-        if (!hasRipple) effects.add(new RippleEffect());
+        if (!hasRipple()) effects.add(new RippleEffect());
     }
 
     public void removeRipple() {
         for (int i = effects.size() - 1; i >=0; i--) {
             TextButtonEffect effect = effects.get(i);
             if (effect instanceof RippleEffect) {
+                ((RippleEffect) effect).restore();
                 effects.remove(effect);
             }
         }
     }
 
+    private boolean hasRipple() {
+        boolean hasRipple = false;
+        for (TextButtonEffect effect: effects) {
+            if (effect instanceof RippleEffect) {
+                hasRipple = true;
+                break;
+            }
+        }
+        return hasRipple;
+    }
+
     @Override
     public void init(TextButton textButton) {
+        boolean hasRipple = hasRipple();
         for (TextButtonEffect effect: effects) {
+            // If we have RippleEffect, then ignore other BackgroundEffect
+            if (hasRipple && effect instanceof BackgroundEffect && !(effect instanceof RippleEffect)) {
+                continue;
+            }
             effect.init(textButton);
         }
     }
 
     @Override
     public void actionDown() {
+        boolean hasRipple = hasRipple();
         for (TextButtonEffect effect: effects) {
+            // If we have RippleEffect, then ignore other BackgroundEffect
+            if (hasRipple && effect instanceof BackgroundEffect && !(effect instanceof RippleEffect)) {
+                continue;
+            }
             effect.actionDown();
         }
     }
 
     @Override
     public void actionUp() {
+        boolean hasRipple = hasRipple();
         for (TextButtonEffect effect: effects) {
+            // If we have RippleEffect, then ignore other BackgroundEffect
+            if (hasRipple && effect instanceof BackgroundEffect && !(effect instanceof RippleEffect)) {
+                continue;
+            }
             effect.actionUp();
         }
     }

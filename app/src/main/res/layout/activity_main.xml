@@ -6,6 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
     tools:context=".MainActivity">
 
     <com.google.android.flexbox.FlexboxLayout
@@ -50,8 +52,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="enabled"
-        android:padding="8dp"
-        android:textSize="24sp"
+        android:padding="4dp"
+        android:textSize="16sp"
         app:defaultTextColor="@android:color/holo_purple"
         app:disabledTextColor="@android:color/darker_gray"/>
 
@@ -60,8 +62,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="default"
-        android:padding="8dp"
-        android:textSize="24sp"
+        android:padding="4dp"
+        android:textSize="16sp"
+        android:background="@drawable/bg_round_border_button"
         app:defaultTextColor="@android:color/holo_purple"
         app:pressedTextColor="@android:color/holo_orange_dark"
         app:underline="true"/>
@@ -71,41 +74,42 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="animateTextSize"
-        android:padding="8dp"
-        android:textSize="24sp"
+        android:padding="4dp"
+        android:textSize="16sp"
         app:defaultTextColor="@android:color/holo_red_dark"
-        app:effect="animateTextSize"/>
+        app:textEffect="animateSize"
+        app:backgroundEffect="animateColor"/>
 
     <top.defaults.view.TextButton
         android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="animateTextColor"
-        android:padding="8dp"
-        android:textSize="24sp"
+        android:padding="4dp"
+        android:textSize="16sp"
         app:defaultTextColor="@android:color/holo_blue_dark"
         app:pressedTextColor="@android:color/holo_orange_dark"
         app:disabledTextColor="@android:color/darker_gray"
         app:underline="true"
         app:effectDuration="200"
-        app:effect="animateTextColor"/>
+        app:textEffect="animateColor"/>
 
     <top.defaults.view.TextButton
         android:id="@+id/button4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="animateTextColorAndSize"
-        android:padding="8dp"
-        android:textSize="24sp"
+        android:padding="4dp"
+        android:textSize="16sp"
         app:defaultTextColor="@android:color/holo_green_dark"
-        app:effect="animateTextColorAndSize"/>
+        app:textEffect="animateColorAndSize"/>
 
     <top.defaults.view.TextButton
         android:id="@+id/button100"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="custom"
-        android:padding="8dp"
-        android:textSize="24sp"
+        android:padding="4dp"
+        android:textSize="16sp"
         app:defaultTextColor="@android:color/black"/>
 </LinearLayout>

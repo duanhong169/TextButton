@@ -5,7 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 
-public class AnimateTextColorEffect implements TextButtonEffect {
+public class AnimateBackgroundColorEffect implements BackgroundEffect {
 
     private ValueAnimator pressColorAnimation;
     private TextButton textButton;
@@ -15,14 +15,14 @@ public class AnimateTextColorEffect implements TextButtonEffect {
     public void init(final TextButton textButton) {
         this.textButton = textButton;
         pressColorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(),
-                textButton.defaultTextColor, textButton.pressedTextColor);
+                textButton.defaultBackgroundColor, textButton.pressedBackgroundColor);
         EffectSettings.apply(pressColorAnimation, textButton.getSettings());
 
         pressColorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                AnimateTextColorEffect.this.textButton
-                        .setTextColor((Integer) animation.getAnimatedValue());
+                AnimateBackgroundColorEffect.this.textButton
+                        .setBackgroundColor((Integer) animation.getAnimatedValue());
             }
         });
 
@@ -31,13 +31,13 @@ public class AnimateTextColorEffect implements TextButtonEffect {
             @Override
             public void onAnimationEnd(Animator animation, boolean isReverse) {
                 if (isReverse) {
-                    textButton.setDefaultTextColorState();
+                    textButton.setColorStateBackground();
                 }
             }
 
             @Override
             public void onAnimationCancel(Animator animation) {
-                textButton.setDefaultTextColorState();
+                textButton.setColorStateBackground();
             }
         });
     }
