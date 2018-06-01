@@ -25,8 +25,6 @@ dependencies {
     implementation 'com.jakewharton:butterknife:8.7.0'
     implementation 'com.google.android:flexbox:1.0.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
-    debugImplementation 'me.ele:uetool:1.0.15'
-    releaseImplementation 'me.ele:uetool-no-op:1.0.15'
     implementation 'com.github.duanhong169:logger:1.0.0'
 //    implementation 'com.github.duanhong169:text-button:1.0.1'
     implementation project(':text-button')

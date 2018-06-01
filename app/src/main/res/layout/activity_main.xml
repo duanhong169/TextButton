@@ -38,13 +38,6 @@
             android:layout_height="wrap_content"
             android:text="with ripple"
             android:checked="false"/>
-
-        <CheckBox
-            android:id="@+id/ue_tool"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="eleme UE tool"
-            android:checked="false"/>
     </com.google.android.flexbox.FlexboxLayout>
 
     <top.defaults.view.TextButton

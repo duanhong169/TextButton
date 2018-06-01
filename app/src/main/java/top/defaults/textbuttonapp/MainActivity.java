@@ -12,7 +12,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
-import me.ele.uetool.UETool;
 import top.defaults.logger.Logger;
 import top.defaults.view.TextButton;
 import top.defaults.view.TextButtonEffect;
@@ -30,15 +29,6 @@ public class MainActivity extends AppCompatActivity {
     @OnClick({R.id.button0, R.id.button1, R.id.button2, R.id.button3, R.id.button4, R.id.button100})
     void onClick(TextView view) {
         Logger.d("Clicked: %s", view.getText());
-    }
-
-    @OnCheckedChanged(R.id.ue_tool)
-    void onUeToolShow(boolean show) {
-        if (show) {
-            UETool.showUETMenu();
-        } else {
-            UETool.dismissUETMenu();
-        }
     }
 
     @OnCheckedChanged(R.id.checkbox0)
