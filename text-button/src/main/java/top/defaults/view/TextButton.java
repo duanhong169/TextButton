@@ -7,6 +7,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
@@ -22,7 +23,7 @@ import top.defaults.logger.Logger;
 import top.defaults.view.textbutton.R;
 
 import static top.defaults.view.EffectSettings.KEY_EFFECT_DURATION;
-import static top.defaults.view.TextButtonEffect.BACKGROUND_EFFECT_DEFAULT;
+import static top.defaults.view.TextButtonEffect.BACKGROUND_EFFECT_NONE;
 import static top.defaults.view.TextButtonEffect.TEXT_EFFECT_DEFAULT;
 
 public class TextButton extends android.support.v7.widget.AppCompatTextView {
@@ -44,6 +45,9 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
     @ColorInt int defaultRippleColor;
     @ColorInt int pressedRippleColor;
     private EffectSet effects;
+
+    private Drawable instinctBackground;
+    private LayerDrawableProxy backgroundProxy = new LayerDrawableProxy();
 
     public TextButton(Context context) {
         this(context, null);
@@ -70,11 +74,12 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
         pressedBackgroundColor = typedArray.getColor(R.styleable.TextButton_pressedBackgroundColor, calculatePressedColor(defaultBackgroundColor));
         disabledBackgroundColor = typedArray.getColor(R.styleable.TextButton_disabledBackgroundColor, calculateDisabledColor(defaultBackgroundColor));
         selectedBackgroundColor = typedArray.getColor(R.styleable.TextButton_selectedBackgroundColor, calculateSelectedColor(defaultBackgroundColor));
-        backgroundEffectType = typedArray.getInt(R.styleable.TextButton_backgroundEffect, BACKGROUND_EFFECT_DEFAULT);
+        backgroundEffectType = typedArray.getInt(R.styleable.TextButton_backgroundEffect, BACKGROUND_EFFECT_NONE);
         defaultRippleColor = typedArray.getColor(R.styleable.TextButton_defaultRippleColor, defaultTextColor);
         pressedRippleColor = typedArray.getColor(R.styleable.TextButton_pressedRippleColor, pressedTextColor);
         typedArray.recycle();
 
+        instinctBackground = getBackground();
         apply();
     }
 
@@ -129,6 +134,8 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
 
     private void apply() {
         setDefaultTextColorState();
+        backgroundProxy.clear().addLayer(instinctBackground);
+        setBackgroundWithProxy(backgroundProxy);
 
         if (effects == null) {
             effects = TextButtonEffect.Factory.create(this);
@@ -189,7 +196,7 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
         setTextColor(getTextColorState());
     }
 
-    StateListDrawable getBackgroundColorStateDrawable() {
+    private StateListDrawable getBackgroundColorStateDrawable() {
         StateListDrawable stateListDrawable = new StateListDrawable();
         stateListDrawable.addState(new int[]{android.R.attr.state_pressed}, new ColorDrawable(pressedBackgroundColor));
         stateListDrawable.addState(new int[]{-android.R.attr.state_enabled}, new ColorDrawable(disabledBackgroundColor));
@@ -199,8 +206,16 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
     }
 
     void setColorStateBackground() {
-        // Set default background color state list first, other effects can override
-        setBackgroundDrawable(getBackgroundColorStateDrawable());
+        setBackgroundWithProxy(backgroundProxy.addLayer(getBackgroundColorStateDrawable()));
+    }
+
+    public LayerDrawableProxy getBackgroundProxy() {
+        return backgroundProxy;
+    }
+
+    public void setBackgroundWithProxy(LayerDrawableProxy backgroundProxy) {
+        this.backgroundProxy = backgroundProxy;
+        setBackgroundDrawable(backgroundProxy.get());
     }
 
     @SuppressLint("ClickableViewAccessibility")

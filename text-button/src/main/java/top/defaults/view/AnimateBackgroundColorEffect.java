@@ -4,25 +4,30 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
+import android.graphics.drawable.ColorDrawable;
 
 public class AnimateBackgroundColorEffect implements BackgroundEffect {
 
     private ValueAnimator pressColorAnimation;
     private TextButton textButton;
+    private ColorDrawable ownLayer;
     private Runnable reverseAnimation;
 
     @Override
     public void init(final TextButton textButton) {
+        restore();
         this.textButton = textButton;
         pressColorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(),
                 textButton.defaultBackgroundColor, textButton.pressedBackgroundColor);
         EffectSettings.apply(pressColorAnimation, textButton.getSettings());
+        ownLayer = new ColorDrawable(textButton.defaultBackgroundColor);
+        textButton.setBackgroundWithProxy(textButton.getBackgroundProxy().addLayer(ownLayer));
 
         pressColorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                AnimateBackgroundColorEffect.this.textButton
-                        .setBackgroundColor((Integer) animation.getAnimatedValue());
+                ownLayer.setColor((Integer) animation.getAnimatedValue());
+                textButton.invalidate();
             }
         });
 
@@ -31,15 +36,23 @@ public class AnimateBackgroundColorEffect implements BackgroundEffect {
             @Override
             public void onAnimationEnd(Animator animation, boolean isReverse) {
                 if (isReverse) {
-                    textButton.setColorStateBackground();
+                    ownLayer.setColor(textButton.defaultBackgroundColor);
+                    textButton.invalidate();
                 }
             }
 
             @Override
             public void onAnimationCancel(Animator animation) {
-                textButton.setColorStateBackground();
+                ownLayer.setColor(textButton.defaultBackgroundColor);
+                textButton.invalidate();
             }
         });
+    }
+
+    private void restore() {
+        if (textButton != null) {
+            textButton.setBackgroundWithProxy(textButton.getBackgroundProxy().removeLayer(ownLayer));
+        }
     }
 
     @Override

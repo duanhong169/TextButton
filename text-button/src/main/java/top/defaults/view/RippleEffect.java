@@ -10,22 +10,28 @@ import android.graphics.drawable.ShapeDrawable;
 public class RippleEffect implements BackgroundEffect {
 
     private TextButton textButton;
-    private RippleDrawableProxy proxy;
+    private Drawable ownLayer;
 
     @Override
     public void init(TextButton textButton) {
         restore();
         this.textButton = textButton;
-        Drawable background = textButton.getBackground();
+        Drawable background = textButton.getBackgroundProxy().getRoot();
         Drawable mask = background instanceof DrawableContainer ? background.getCurrent() : background;
         if (mask instanceof ShapeDrawable) {
-            ShapeDrawable drawable = ((ShapeDrawable)mask.mutate());
-            drawable.getPaint().setColor(0x43ffffff);
-            mask = drawable;
+            Drawable.ConstantState state = mask.getConstantState();
+            if (state != null) {
+                ShapeDrawable drawable = ((ShapeDrawable) state.newDrawable().mutate());
+                drawable.getPaint().setColor(0x43ffffff);
+                mask = drawable;
+            }
         } else if (mask instanceof GradientDrawable) {
-            GradientDrawable drawable = ((GradientDrawable)mask.mutate());
-            drawable.setColor(0x43ffffff);
-            mask = drawable;
+            Drawable.ConstantState state = mask.getConstantState();
+            if (state != null) {
+                GradientDrawable drawable = ((GradientDrawable) state.newDrawable().mutate());
+                drawable.setColor(0x43ffffff);
+                mask = drawable;
+            }
         } else {
             mask = new ColorDrawable(0x43ffffff);
         }
@@ -40,13 +46,14 @@ public class RippleEffect implements BackgroundEffect {
                         textButton.defaultRippleColor
                 }
         );
-        proxy = new RippleDrawableProxy(colorStateList, background, mask);
-        textButton.setBackgroundDrawable(proxy.get());
+
+        ownLayer = new RippleDrawableProxy(colorStateList, null, mask).get();
+        textButton.setBackgroundWithProxy(textButton.getBackgroundProxy().addLayer(ownLayer));
     }
 
     public void restore() {
-        if (textButton != null && proxy != null) {
-            textButton.setBackgroundDrawable(proxy.getContent());
+        if (textButton != null) {
+            textButton.setBackgroundWithProxy(textButton.getBackgroundProxy().removeLayer(ownLayer));
         }
     }
 

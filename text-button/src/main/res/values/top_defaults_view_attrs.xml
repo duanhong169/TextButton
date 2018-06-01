@@ -18,7 +18,7 @@
         <attr name="disabledBackgroundColor" format="color"/>
         <attr name="selectedBackgroundColor" format="color"/>
         <attr name="backgroundEffect" format="enum">
-            <enum name="defaultEffect" value="0"/>
+            <enum name="colorState" value="0"/>
             <enum name="ripple" value="1"/>
             <enum name="animateColor" value="2"/>
         </attr>

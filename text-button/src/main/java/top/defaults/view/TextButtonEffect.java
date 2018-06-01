@@ -6,7 +6,9 @@ public interface TextButtonEffect {
     int TEXT_EFFECT_ANIMATE_COLOR = 1;
     int TEXT_EFFECT_ANIMATE_SIZE = 2;
     int TEXT_EFFECT_ANIMATE_COLOR_AND_SIZE = 3;
-    int BACKGROUND_EFFECT_DEFAULT = 0;
+
+    int BACKGROUND_EFFECT_NONE = -1;
+    int BACKGROUND_EFFECT_COLOR_STATE = 0;
     int BACKGROUND_EFFECT_RIPPLE = 1;
     int BACKGROUND_EFFECT_ANIMATE_COLOR = 2;
 
@@ -36,6 +38,9 @@ public interface TextButtonEffect {
             }
 
             switch (textButton.backgroundEffectType) {
+                case BACKGROUND_EFFECT_COLOR_STATE:
+                    effectSet.add(new ColorStateBackgroundEffect());
+                    break;
                 case BACKGROUND_EFFECT_RIPPLE:
                     effectSet.add(new RippleEffect());
                     break;
