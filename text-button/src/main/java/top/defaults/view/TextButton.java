@@ -12,6 +12,7 @@ import android.graphics.drawable.StateListDrawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.SparseArray;
 import android.util.StateSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -49,6 +50,50 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
     private Drawable instinctBackground;
     private LayerDrawableProxy backgroundProxy = new LayerDrawableProxy();
 
+    public static class Defaults {
+
+        private static Defaults defaults = new Defaults();
+        private SparseArray<Object> settings = new SparseArray<>();
+
+        public static Defaults get() {
+            return defaults;
+        }
+
+        Integer getInt(int key, int defaultValue) {
+            Object o = settings.get(key);
+            if (o instanceof Integer) {
+                return (Integer) o;
+            } else {
+                return defaultValue;
+            }
+        }
+
+        Boolean getBoolean(int key, boolean defaultValue) {
+            Object o = settings.get(key);
+            if (o instanceof Boolean) {
+                return (Boolean) o;
+            } else {
+                return defaultValue;
+            }
+        }
+
+        public void set(int key, Object o) {
+            settings.put(key, o);
+        }
+    }
+
+    private int getColor(TypedArray typedArray, int key, int defaultValue) {
+        return typedArray.getColor(key, Defaults.get().getInt(key, defaultValue));
+    }
+    
+    private int getInt(TypedArray typedArray, int key, int defaultValue) {
+        return typedArray.getInt(key, Defaults.get().getInt(key, defaultValue));
+    }
+
+    private boolean getBoolean(TypedArray typedArray, int key, @SuppressWarnings("SameParameterValue") boolean defaultValue) {
+        return typedArray.getBoolean(key, Defaults.get().getBoolean(key, defaultValue));
+    }
+
     public TextButton(Context context) {
         this(context, null);
     }
@@ -62,21 +107,21 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
         setClickable(true);
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.TextButton);
-        defaultTextColor = typedArray.getColor(R.styleable.TextButton_defaultTextColor, getCurrentTextColor());
-        pressedTextColor = typedArray.getColor(R.styleable.TextButton_pressedTextColor, calculatePressedColor(defaultTextColor));
-        disabledTextColor = typedArray.getColor(R.styleable.TextButton_disabledTextColor, calculateDisabledColor(defaultTextColor));
-        selectedTextColor = typedArray.getColor(R.styleable.TextButton_selectedTextColor, calculateSelectedColor(defaultTextColor));
-        isUnderlined = typedArray.getBoolean(R.styleable.TextButton_underline, false);
-        effectType = typedArray.getInt(R.styleable.TextButton_textEffect, TEXT_EFFECT_DEFAULT);
+        defaultTextColor = getColor(typedArray, R.styleable.TextButton_defaultTextColor, getCurrentTextColor());
+        pressedTextColor = getColor(typedArray, R.styleable.TextButton_pressedTextColor, calculatePressedColor(defaultTextColor));
+        disabledTextColor = getColor(typedArray, R.styleable.TextButton_disabledTextColor, calculateDisabledColor(defaultTextColor));
+        selectedTextColor = getColor(typedArray, R.styleable.TextButton_selectedTextColor, calculateSelectedColor(defaultTextColor));
+        isUnderlined = getBoolean(typedArray, R.styleable.TextButton_underline, false);
+        effectType = getInt(typedArray, R.styleable.TextButton_textEffect, TEXT_EFFECT_DEFAULT);
         // -1 means use effect's default duration
-        effectDuration = typedArray.getInt(R.styleable.TextButton_effectDuration, -1);
-        defaultBackgroundColor = typedArray.getColor(R.styleable.TextButton_defaultBackgroundColor, 0);
-        pressedBackgroundColor = typedArray.getColor(R.styleable.TextButton_pressedBackgroundColor, calculatePressedColor(defaultBackgroundColor));
-        disabledBackgroundColor = typedArray.getColor(R.styleable.TextButton_disabledBackgroundColor, calculateDisabledColor(defaultBackgroundColor));
-        selectedBackgroundColor = typedArray.getColor(R.styleable.TextButton_selectedBackgroundColor, calculateSelectedColor(defaultBackgroundColor));
-        backgroundEffectType = typedArray.getInt(R.styleable.TextButton_backgroundEffect, BACKGROUND_EFFECT_NONE);
-        defaultRippleColor = typedArray.getColor(R.styleable.TextButton_defaultRippleColor, defaultTextColor);
-        pressedRippleColor = typedArray.getColor(R.styleable.TextButton_pressedRippleColor, pressedTextColor);
+        effectDuration = getInt(typedArray, R.styleable.TextButton_effectDuration, -1);
+        defaultBackgroundColor = getColor(typedArray, R.styleable.TextButton_defaultBackgroundColor, 0);
+        pressedBackgroundColor = getColor(typedArray, R.styleable.TextButton_pressedBackgroundColor, calculatePressedColor(defaultBackgroundColor));
+        disabledBackgroundColor = getColor(typedArray, R.styleable.TextButton_disabledBackgroundColor, calculateDisabledColor(defaultBackgroundColor));
+        selectedBackgroundColor = getColor(typedArray, R.styleable.TextButton_selectedBackgroundColor, calculateSelectedColor(defaultBackgroundColor));
+        backgroundEffectType = getInt(typedArray, R.styleable.TextButton_backgroundEffect, BACKGROUND_EFFECT_NONE);
+        defaultRippleColor = getColor(typedArray, R.styleable.TextButton_defaultRippleColor, defaultTextColor);
+        pressedRippleColor = getColor(typedArray, R.styleable.TextButton_pressedRippleColor, pressedTextColor);
         typedArray.recycle();
 
         instinctBackground = getBackground();

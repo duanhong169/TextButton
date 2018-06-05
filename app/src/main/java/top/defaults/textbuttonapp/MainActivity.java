@@ -13,6 +13,7 @@ import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import top.defaults.logger.Logger;
+import top.defaults.view.RippleEffect;
 import top.defaults.view.TextButton;
 import top.defaults.view.TextButtonEffect;
 
@@ -80,13 +81,13 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void actionDown() {
-                textButton.setVisibility(View.INVISIBLE);
+                textButton.setAlpha(0.5f);
             }
 
             @Override
             public void actionUp() {
-                textButton.setVisibility(View.VISIBLE);
+                textButton.setAlpha(1);
             }
-        });
+        }, new RippleEffect());
     }
 }
