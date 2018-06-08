@@ -43,8 +43,7 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
     @ColorInt int disabledBackgroundColor;
     @ColorInt int selectedBackgroundColor;
     int backgroundEffectType;
-    @ColorInt int defaultRippleColor;
-    @ColorInt int pressedRippleColor;
+    @ColorInt int rippleColor;
     private EffectSet effects;
 
     private Drawable instinctBackground;
@@ -120,8 +119,7 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
         disabledBackgroundColor = getColor(typedArray, R.styleable.TextButton_disabledBackgroundColor, calculateDisabledColor(defaultBackgroundColor));
         selectedBackgroundColor = getColor(typedArray, R.styleable.TextButton_selectedBackgroundColor, calculateSelectedColor(defaultBackgroundColor));
         backgroundEffectType = getInt(typedArray, R.styleable.TextButton_backgroundEffect, BACKGROUND_EFFECT_NONE);
-        defaultRippleColor = getColor(typedArray, R.styleable.TextButton_defaultRippleColor, defaultTextColor);
-        pressedRippleColor = getColor(typedArray, R.styleable.TextButton_pressedRippleColor, pressedTextColor);
+        rippleColor = getColor(typedArray, R.styleable.TextButton_rippleColor, defaultTextColor);
         typedArray.recycle();
 
         instinctBackground = getBackground();

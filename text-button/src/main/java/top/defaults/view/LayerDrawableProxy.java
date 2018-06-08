@@ -2,6 +2,7 @@ package top.defaults.view;
 
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.RippleDrawable;
 import android.os.Build;
 
 import java.util.ArrayList;
@@ -35,9 +36,25 @@ public class LayerDrawableProxy {
 
     public LayerDrawableProxy addLayer(Drawable layer) {
         if (layer == null) return this;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // Use ripple drawable as layer-list and clear others
+            if (layer instanceof RippleDrawable) {
+                this.layers.clear();
+            }
+        }
+
         this.layers.add(layer);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            layerDrawable.addLayer(layer);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (layer instanceof RippleDrawable) {
+                layerDrawable = (RippleDrawable) layer;
+            } else {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    layerDrawable.addLayer(layer);
+                } else {
+                    layerDrawable = new LayerDrawable(layers.toArray(new Drawable[layers.size()]));
+                }
+            }
         } else {
             layerDrawable = new LayerDrawable(layers.toArray(new Drawable[layers.size()]));
         }

@@ -22,7 +22,6 @@
             <enum name="ripple" value="1"/>
             <enum name="animateColor" value="2"/>
         </attr>
-        <attr name="defaultRippleColor" format="color"/>
-        <attr name="pressedRippleColor" format="color"/>
+        <attr name="rippleColor" format="color"/>
     </declare-styleable>
 </resources>

@@ -38,16 +38,14 @@ public class RippleEffect implements BackgroundEffect {
 
         ColorStateList colorStateList = new ColorStateList(
                 new int[][]{
-                        new int[]{ android.R.attr.state_pressed },
                         new int[]{} // this should be empty to make default color as we want
                 },
                 new int[]{
-                        textButton.pressedRippleColor,
-                        textButton.defaultRippleColor
+                        textButton.rippleColor
                 }
         );
 
-        ownLayer = new RippleDrawableProxy(colorStateList, null, mask).get();
+        ownLayer = new RippleDrawableProxy(colorStateList, background, mask).get();
         textButton.setBackgroundWithProxy(textButton.getBackgroundProxy().addLayer(ownLayer));
     }
 
