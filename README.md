@@ -1,4 +1,4 @@
-# Text Button [![gitHub release](https://img.shields.io/github/release/duanhong169/TextButton.svg?style=social)](https://github.com/duanhong169/TextButton/releases) [![platform](https://img.shields.io/badge/platform-android-brightgreen.svg)](https://developer.android.com/index.html) [![license](https://img.shields.io/badge/license-Apache%202-green.svg)](https://github.com/duanhong169/TextButton/blob/master/LICENSE)
+# Text Button [![gitHub release](https://img.shields.io/github/release/duanhong169/TextButton.svg?style=social)](https://github.com/duanhong169/TextButton/releases) [![platform](https://img.shields.io/badge/platform-android-brightgreen.svg)](https://developer.android.com/index.html) [![license](https://img.shields.io/badge/license-Apache%202-green.svg)](https://github.com/duanhong169/TextButton/blob/master/LICENSE) [![Build status](https://build.appcenter.ms/v0.1/apps/11265091-9854-4788-9202-8386c553ece6/branches/master/badge)](https://appcenter.ms)
 
 An easy to use `TextButton` when you need a TextView-like button, with handy touch feedback effects.
 
