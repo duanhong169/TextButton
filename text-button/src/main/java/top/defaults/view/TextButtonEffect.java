@@ -51,7 +51,6 @@ public interface TextButtonEffect {
                     break;
             }
 
-            effectSet.init(textButton);
             return effectSet;
         }
     }
