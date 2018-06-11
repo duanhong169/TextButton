@@ -11,6 +11,6 @@ public class TextButtonApplication extends Application {
     public void onCreate() {
         super.onCreate();
         TextButton.Defaults defaults = TextButton.Defaults.get();
-        defaults.set(top.defaults.view.textbutton.R.styleable.TextButton_backgroundEffect, TextButtonEffect.BACKGROUND_EFFECT_RIPPLE);
+        defaults.set(top.defaults.view.textbutton.R.styleable.TextButton_selectedTextColor, 0xff0000ff); // Blue
     }
 }

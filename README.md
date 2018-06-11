@@ -27,17 +27,20 @@ Config `TextButton` in xml:
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="animateTextColor"
-    android:padding="8dp"
-    android:textSize="24sp"
+    android:padding="4dp"
+    android:textSize="16sp"
     app:defaultTextColor="@android:color/holo_blue_dark"
     app:pressedTextColor="@android:color/holo_orange_dark"
     app:disabledTextColor="@android:color/darker_gray"
     app:underline="true"
     app:effectDuration="200"
-    app:effect="animateTextColor"/>
+    app:textEffect="animateColor"
+    app:backgroundEffect="ripple"/>
 ```
 
-We support four effects for now: `default`, `animateTextColor`, `animateTextSize` and `animateTextColorAndSize`.
+There are 4 text effects: `default`, `animateColor`, `animateSize` and `animateColorAndSize` and 3 background effects: `colorState`, `ripple`, `animateColor` for now.
+
+See [`top_defaults_view_attrs.xml`](./text-button/src/main/res/values/top_defaults_view_attrs.xml) for all supported attributes.
 
 ### Implement your own effect
 
@@ -52,12 +55,12 @@ button5.setEffect(new TextButtonEffect() {
 
     @Override
     public void actionDown() {
-        textButton.setVisibility(View.INVISIBLE);
+        textButton.setAlpha(0.5f);
     }
 
     @Override
     public void actionUp() {
-        textButton.setVisibility(View.VISIBLE);
+        textButton.setAlpha(1);
     }
 });
 ```
