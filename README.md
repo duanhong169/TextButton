@@ -67,6 +67,6 @@ button5.setEffect(new TextButtonEffect() {
 
 For more details, see the sample app.
 
-### License
+## License
 
 See the [LICENSE](./LICENSE) file.
