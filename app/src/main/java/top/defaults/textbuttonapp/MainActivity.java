@@ -1,8 +1,8 @@
 package top.defaults.textbuttonapp;
 
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -12,6 +12,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
+import top.defaults.drawabletoolbox.DrawableBuilder;
 import top.defaults.logger.Logger;
 import top.defaults.view.RippleEffect;
 import top.defaults.view.TextButton;
@@ -63,6 +64,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+        button1.setBackgroundDrawable(new DrawableBuilder()
+                .rectangle()
+                .rounded()
+                .hairlineBordered()
+                .strokeColor(ContextCompat.getColor(this, android.R.color.holo_purple))
+                .strokeColorPressed(ContextCompat.getColor(this, android.R.color.holo_orange_light))
+                .strokeColorSelected(ContextCompat.getColor(this, android.R.color.holo_orange_dark))
+                .solidColorSelected(ContextCompat.getColor(this, android.R.color.holo_orange_light))
+                .build());
 
         buttons.add(button0);
         buttons.add(button1);
