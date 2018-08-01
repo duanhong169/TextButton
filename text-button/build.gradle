@@ -5,19 +5,14 @@ ext {
     bintrayName = 'text-button'
 
     publishedGroupId = 'com.github.duanhong169'
-    libraryName = 'TextButton'
     artifact = 'text-button'
 
+    libraryName = 'TextButton'
     libraryDescription = 'Use textview as button easily'
+    libraryVersion = '1.0.5'
 
     siteUrl = 'https://github.com/duanhong169/TextButton'
     gitUrl = 'https://github.com/duanhong169/TextButton.git'
-
-    libraryVersion = '1.0.4'
-
-    developerId = 'duanhong169'
-    developerName = 'Hong Duan'
-    developerEmail = 'duanhong169@gmail.com'
 
     licenseName = 'The MIT License, Version 2.0'
     licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
@@ -55,5 +50,4 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
 
-apply from: 'installv1.gradle'
-apply from: 'bintrayv1.gradle'
+apply from: 'https://raw.githubusercontent.com/duanhong169/bintray-gradle/master/bintray.gradle'

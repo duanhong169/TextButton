@@ -133,6 +133,13 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
         return settings;
     }
 
+    @Override
+    public void setBackgroundDrawable(Drawable background) {
+        super.setBackgroundDrawable(background);
+        instinctBackground = background;
+        apply();
+    }
+
     /**
      * Set custom {@link TextButtonEffect}s, which will override the xml settings
      *
@@ -258,7 +265,7 @@ public class TextButton extends android.support.v7.widget.AppCompatTextView {
 
     public void setBackgroundWithProxy(LayerDrawableProxy backgroundProxy) {
         this.backgroundProxy = backgroundProxy;
-        setBackgroundDrawable(backgroundProxy.get());
+        super.setBackgroundDrawable(backgroundProxy.get());
     }
 
     @SuppressLint("ClickableViewAccessibility")
