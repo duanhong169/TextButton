@@ -31,7 +31,7 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
     implementation 'com.github.duanhong169:logger:1.0.0'
     implementation 'com.github.duanhong169:drawabletoolbox:1.0.1'
-    implementation 'com.github.duanhong169:text-button:1.0.4'
+    implementation 'com.github.duanhong169:text-button:1.0.5'
 //    implementation project(':text-button')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
